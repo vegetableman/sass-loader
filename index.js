@@ -53,6 +53,10 @@ module.exports = function (content) {
     opt.success = function (result) {
         markDependencies();
 
+        result.stats.includedFiles.forEach(function(file) {
+          this.addDependency(file);
+        }.bind(this));
+
         if (result.map && result.map !== '{}') {
             result.map = JSON.parse(result.map);
             result.map.file = utils.getCurrentRequest(this);
